@@ -92,6 +92,13 @@ public class TestSelectionUtil {
             if(appNode.getMethod() instanceof ShrikeBTMethod) {
                 ShrikeBTMethod method = (ShrikeBTMethod) appNode.getMethod();
                 myNodes.add(new MyMethod(method));
+            } else {
+                // Abnormal output.
+                System.out.println(
+                        String.format("[WARNING] Generate MyNodes: '%s' is not a ShrikeBTMethod: %s",
+                                appNode.getMethod(),
+                                appNode.getMethod().getClass()
+                        ));
             }
         }
         myNodes = myNodes.stream().distinct().collect(Collectors.toList()); // Deduplicate (maybe not necessary.)
@@ -114,7 +121,6 @@ public class TestSelectionUtil {
                         if(index != -1)
                             dependents.add(myNodes.get(index));
                     } else
-                        // Abnormal output.
                         System.out.println(String.format("[LOG] Construct dependents: %s is not an application", node));
                 } else {
                     System.out.println(
@@ -286,13 +292,17 @@ public class TestSelectionUtil {
      * @param allMethods All methods parsed from wala call graph.
      * @return A list of class inner names parsed from change_info.txt.
      */
-    public static List<MyMethod> parseClass(String changeInfoPath, List<MyMethod> allMethods) {
+    public static List<MyMethod> parseClassChanges(String changeInfoPath, List<MyMethod> allMethods) {
         List<String> changedClassInnerNames = new ArrayList<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(new File(changeInfoPath)));
             Stream<String> allLines = br.lines();
-            allLines.forEach((line) -> changedClassInnerNames.add(line.split(" ")[0]));
+            allLines.forEach((line) -> {
+                // Deduplicate.
+                if(!changedClassInnerNames.contains(line))
+                    changedClassInnerNames.add(line.split(" ")[0]);
+            });
         } catch (FileNotFoundException e) {
             System.out.println("[ERROR] Error occurs when trying to parse changed classes");
             e.printStackTrace();
@@ -339,7 +349,7 @@ public class TestSelectionUtil {
      * @return A list of MyMethod objects parsed from change_info.txt.
      * @see MyMethod
      */
-    public static List<MyMethod> parseChangedMethod(String changeInfoPath, List<MyMethod> allMethods) {
+    public static List<MyMethod> parseMethodChanges(String changeInfoPath, List<MyMethod> allMethods) {
         List<MyMethod> changedMethods = new ArrayList<>();
         BufferedReader br = null;
         try {
