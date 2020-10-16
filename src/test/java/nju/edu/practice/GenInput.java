@@ -14,6 +14,8 @@ import org.junit.Test;
 import java.io.*;
 
 /**
+ * Generate change_info.txt for each project.
+ *
  * @author QRX
  * @email QRXwzx@outlook.com
  * @date 2020-10-16
@@ -22,10 +24,12 @@ public class GenInput {
 
 
 
+
+
     @Test
     public void CMD_genAllInputData() throws IOException, ClassHierarchyException, CancelException {
-        String classDir = "material/CMD/target";
-        String output = "output/CMD/All-Input-Data.txt";
+        String classDir = "material/0-CMD/target";
+        String output = "output/0-CMD/All-Input-Data.txt";
         genAllInput(classDir, output);
     }
 
