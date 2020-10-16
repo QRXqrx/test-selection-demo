@@ -77,7 +77,7 @@ public class TestSelectionUtil {
                     appNodes.add(node);
             } else {
                 System.out.println(
-                    String.format("[LOG] '%s' is not a ShrikeBTMethod: %s",
+                    String.format("[LOG] Parse wala call graph: '%s' is not a ShrikeBTMethod: %s",
                         node.getMethod(),
                         node.getMethod().getClass()
                 ));
@@ -115,11 +115,10 @@ public class TestSelectionUtil {
                             dependents.add(myNodes.get(index));
                     } else
                         // Abnormal output.
-                        System.out.println(String.format("[WARNING] %s is not an application", node));
+                        System.out.println(String.format("[LOG] Construct dependents: %s is not an application", node));
                 } else {
-                    // Abnormal output.
                     System.out.println(
-                        String.format("[WARNING] '%s' is not a ShrikeBTMethod: %s",
+                        String.format("[LOG] Construct dependents: '%s' is not a ShrikeBTMethod: %s",
                             node.getMethod(),
                             node.getMethod().getClass()
                     ));
