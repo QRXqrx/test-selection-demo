@@ -253,6 +253,9 @@ public class TestSelectionUtil {
         // Avoid repeated visiting that may cause endless loop.
         if(method.isVisited())
             return;
+        // Propagate change to this method.
+        method.setChanged(true);
+        method.setVisited(true); // Marked as visited.
         // Propagate change to its dependents.
         List<MyMethod> dependents = method.getDependents();
         if(dependents.isEmpty())
