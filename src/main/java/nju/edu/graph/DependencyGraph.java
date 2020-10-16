@@ -27,6 +27,9 @@ public class DependencyGraph<T extends DependencyRelation> {
     /** All edges of this dot graph. */
     private List<T> relations = new ArrayList<>();
 
+    public DependencyGraph() {
+    }
+
     public DependencyGraph(List<T> relations) {
         this.relations = relations;
     }
