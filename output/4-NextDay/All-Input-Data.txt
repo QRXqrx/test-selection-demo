@@ -1,0 +1,29 @@
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeRootMethod
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeWorldClinitMethod
+Lnet/mooctest/Date net.mooctest.Date.getYear()Lnet/mooctest/Year;
+Lnet/mooctest/Date net.mooctest.Date.equals(Ljava/lang/Object;)Z
+Lnet/mooctest/Date net.mooctest.Date.getDay()Lnet/mooctest/Day;
+Lnet/mooctest/Date net.mooctest.Date.toString()Ljava/lang/String;
+Lnet/mooctest/Year net.mooctest.Year.getYear()I
+Lnet/mooctest/Month net.mooctest.Month.isValid()Z
+Lnet/mooctest/Year net.mooctest.Year.equals(Ljava/lang/Object;)Z
+Lnet/mooctest/Day net.mooctest.Day.equals(Ljava/lang/Object;)Z
+Lnet/mooctest/Date net.mooctest.Date.printDate()V
+Lnet/mooctest/Day net.mooctest.Day.isValid()Z
+Lnet/mooctest/Month net.mooctest.Month.getMonthSize()I
+Lnet/mooctest/Day net.mooctest.Day.increment()Z
+Lnet/mooctest/CalendarUnit net.mooctest.CalendarUnit.setCurrentPos(I)V
+Lnet/mooctest/Month net.mooctest.Month.setMonth(ILnet/mooctest/Year;)V
+Lnet/mooctest/Month net.mooctest.Month.getMonth()I
+Lnet/mooctest/Date net.mooctest.Date.increment()V
+Lnet/mooctest/Year net.mooctest.Year.isValid()Z
+Lnet/mooctest/Day net.mooctest.Day.getDay()I
+Lnet/mooctest/Nextday net.mooctest.Nextday.nextDay(Lnet/mooctest/Date;)Lnet/mooctest/Date;
+Lnet/mooctest/Month net.mooctest.Month.equals(Ljava/lang/Object;)Z
+Lnet/mooctest/Date net.mooctest.Date.getMonth()Lnet/mooctest/Month;
+Lnet/mooctest/Year net.mooctest.Year.isLeap()Z
+Lnet/mooctest/Year net.mooctest.Year.setYear(I)V
+Lnet/mooctest/Year net.mooctest.Year.increment()Z
+Lnet/mooctest/Day net.mooctest.Day.setDay(ILnet/mooctest/Month;)V
+Lnet/mooctest/CalendarUnit net.mooctest.CalendarUnit.getCurrentPos()I
+Lnet/mooctest/Month net.mooctest.Month.increment()Z

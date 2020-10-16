@@ -1,0 +1,16 @@
+Lnet/mooctest/Argument net.mooctest.Argument.variable(Lnet/mooctest/Variable;)Lnet/mooctest/Argument;
+Lnet/mooctest/Fact net.mooctest.Fact.getPredicate()Lnet/mooctest/Predicate;
+Lnet/mooctest/Program net.mooctest.Program.query(Lnet/mooctest/Datalog;[Lnet/mooctest/Fact;)[Lnet/mooctest/Fact;
+Lnet/mooctest/Program net.mooctest.Program.deriveAll([Lnet/mooctest/Fact;)[Lnet/mooctest/Fact;
+Lnet/mooctest/Datalog net.mooctest.Datalog.substituteTo(Lnet/mooctest/Fact;)Lnet/mooctest/Substitution;
+Lnet/mooctest/Rule net.mooctest.Rule.deriveOnce(Ljava/util/Collection;)Ljava/util/LinkedList;
+Lnet/mooctest/Substitution net.mooctest.Substitution.extend(Lnet/mooctest/Variable;Lnet/mooctest/Value;)Lnet/mooctest/Substitution;
+Lnet/mooctest/Variable net.mooctest.Variable.getIdentifier()Ljava/lang/String;
+Lnet/mooctest/Program net.mooctest.Program.valToArg([Lnet/mooctest/Value;)[Lnet/mooctest/Argument;
+Lnet/mooctest/Substitution net.mooctest.Substitution.applyOn(Lnet/mooctest/Datalog;)Lnet/mooctest/Datalog;
+Lnet/mooctest/Value net.mooctest.Value.getValue()Ljava/lang/String;
+Lnet/mooctest/Predicate net.mooctest.Predicate.getName()Ljava/lang/String;
+Lnet/mooctest/Value net.mooctest.Value.toString()Ljava/lang/String;
+Lnet/mooctest/Program net.mooctest.Program.canDerive(Lnet/mooctest/Fact;[Lnet/mooctest/Fact;)Z
+Lnet/mooctest/Datalog net.mooctest.Datalog.toFact()Lnet/mooctest/Fact;
+Lnet/mooctest/Datalog net.mooctest.Datalog.compatibleWith(Lnet/mooctest/Fact;)Z

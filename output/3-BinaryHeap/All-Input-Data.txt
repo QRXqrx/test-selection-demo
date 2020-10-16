@@ -1,0 +1,11 @@
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeRootMethod
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeWorldClinitMethod
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.isFull()Z
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.percolateDown(I)V
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.insert(I)V
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.wellFormed()Z
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.findMin()I
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.makeEmpty()V
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.buildHeap()V
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.deleteMin()I
+Lnet/mooctest/BinaryHeap net.mooctest.BinaryHeap.isEmpty()Z

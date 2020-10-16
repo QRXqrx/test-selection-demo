@@ -1,0 +1,16 @@
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeRootMethod
+This method is not a ShrikeBTMethod: class com.ibm.wala.ipa.callgraph.impl.FakeWorldClinitMethod
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.perimeter()D
+Lnet/mooctest/Vector net.mooctest.Vector.add(Lnet/mooctest/Vector;)Lnet/mooctest/Vector;
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.getCentroidX()D
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.toString()Ljava/lang/String;
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.pointInsideTriangle(DD)Z
+Lnet/mooctest/Node net.mooctest.Node.setName(Ljava/lang/String;)V
+Lnet/mooctest/Edge net.mooctest.Edge.length()D
+Lnet/mooctest/Edge net.mooctest.Edge.toString()Ljava/lang/String;
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.getCentroidY()D
+Lnet/mooctest/MoreTriangle net.mooctest.MoreTriangle.area()D
+Lnet/mooctest/Vector net.mooctest.Vector.sub(Lnet/mooctest/Vector;)Lnet/mooctest/Vector;
+Lnet/mooctest/Vector net.mooctest.Vector.toString()Ljava/lang/String;
+Lnet/mooctest/Node net.mooctest.Node.toString()Ljava/lang/String;
+Lnet/mooctest/Vector net.mooctest.Vector.length()D
