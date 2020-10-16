@@ -28,6 +28,65 @@ public class SelectionTest {
     String cmdAllInput = "output/CMD/All-input.txt";
 
     @Test
+    public void CMD_testSelection1() throws IOException, ClassHierarchyException, CancelException {
+        String changeInfo = "material/CMD/data/change_info.txt";
+        AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
+        // Two types of call graphs.
+        CallGraph cfaCG = TestSelectionUtil.makeZeroCFACGFromScope(scope);
+        List<MyMethod> chaNodes = TestSelectionUtil.parseWalaCG2MyNodes(cfaCG);
+
+        List<MyMethod> methodLChanges = TestSelectionUtil.parseMethodChanges(changeInfo, chaNodes);
+        List<MyMethod> classLChanges = TestSelectionUtil.parseClassChanges(changeInfo, chaNodes);
+
+        Assert.assertEquals(classLChanges.size(), 18);
+        // Method level Selection.
+        String outputMethod = "output/CMD/selection-method-cfa.txt";
+        TestSelectionUtil.selectAndOutput(chaNodes, methodLChanges, outputMethod);
+        // Class Level Selection.
+        String outputClass = "output/CMD/selection-class-cfa.txt";
+        TestSelectionUtil.selectAndOutput(chaNodes, classLChanges, outputClass);
+    }
+
+    @Test
+    public void CMD_testSelection() throws IOException, ClassHierarchyException, CancelException {
+        String changeInfo = "material/CMD/data/change_info.txt";
+        AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
+        // Two types of call graphs.
+        CallGraph chaCG = TestSelectionUtil.makeCHACGFromScope(scope);
+        List<MyMethod> chaNodes = TestSelectionUtil.parseWalaCG2MyNodes(chaCG);
+
+        List<MyMethod> methodLChanges = TestSelectionUtil.parseMethodChanges(changeInfo, chaNodes);
+        List<MyMethod> classLChanges = TestSelectionUtil.parseClassChanges(changeInfo, chaNodes);
+
+        Assert.assertEquals(classLChanges.size(), 19);
+        // Method level Selection.
+        String outputMethod = "output/CMD/selection-method.txt";
+        TestSelectionUtil.selectAndOutput(chaNodes, methodLChanges, outputMethod);
+        // Class Level Selection.
+        String outputClass = "output/CMD/selection-class.txt";
+        TestSelectionUtil.selectAndOutput(chaNodes, classLChanges, outputClass);
+    }
+
+    @Test
+    public void CMD_testParseInput2() throws IOException, ClassHierarchyException, CancelException {
+        String changeInfo = "material/CMD/data/change_info.txt";
+        AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
+        // Two types of call graphs.
+        CallGraph chaCG = TestSelectionUtil.makeCHACGFromScope(scope);
+        List<MyMethod> chaNodes = TestSelectionUtil.parseWalaCG2MyNodes(chaCG);
+
+        List<MyMethod> methodLChanges = TestSelectionUtil.parseMethodChanges(changeInfo, chaNodes);
+        List<MyMethod> classLChanges = TestSelectionUtil.parseClassChanges(changeInfo, chaNodes);
+
+        Assert.assertNotEquals(methodLChanges.size(), classLChanges.size());
+
+        String output1 = "output/CMD/parse_input_method_partial.txt";
+        String output2 = "output/CMD/parse_input_class_partial.txt";
+        IOUtil.writeContentsIntoFile(output1, methodLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
+        IOUtil.writeContentsIntoFile(output2, classLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
+    }
+
+    @Test
     public void CMD_testParseInput() throws IOException, ClassHierarchyException, CancelException {
         AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
         // Two types of call graphs.
@@ -43,6 +102,19 @@ public class SelectionTest {
         IOUtil.writeContentsIntoFile(output1, methodLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
         IOUtil.writeContentsIntoFile(output2, classLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
 
+    }
+
+    @Test
+    public void CMD_testOutputDotGraph1() throws IOException, ClassHierarchyException, CancelException {
+        AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
+        CallGraph cfaCG = TestSelectionUtil.makeZeroCFACGFromScope(scope);
+
+        List<MyMethod> cfaNodes = TestSelectionUtil.parseWalaCG2MyNodes(cfaCG);
+
+        String output1 = "output/CMD/class-CMD-cfa.dot";
+        String output2 = "output/CMD/method-CMD-cfa.dot";
+        TestSelectionUtil.outputClassDepGraph("cmd_class", output1, cfaNodes);
+        TestSelectionUtil.outputMethodDepGraph("cmd_method", output2, cfaNodes);
     }
 
     @Test
