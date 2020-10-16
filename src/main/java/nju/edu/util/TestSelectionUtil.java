@@ -1,6 +1,7 @@
 package nju.edu.util;
 
 import com.ibm.wala.classLoader.Language;
+import com.ibm.wala.classLoader.ShrikeBTMethod;
 import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.cha.CHACallGraph;
 import com.ibm.wala.ipa.callgraph.impl.AllApplicationEntrypoints;
@@ -14,6 +15,7 @@ import nju.edu.entity.MyMethod;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +31,88 @@ public class TestSelectionUtil {
 
     private TestSelectionUtil() {}
 
-    /* -------------------- Parse Wala CallGraph -------------------- */
+    /* -------------------- Construct and Parse Wala CallGraph -------------------- */
+
+    private static boolean isLoadedAsApplication(ShrikeBTMethod method) {
+        return "Application".equals(method.getDeclaringClass().getClassLoader().toString());
+    }
+
+    /**
+     * This method can transform wala call graph into my method nodes.
+     * Theoretically, test selection can be implemented directly using
+     * wala call graph.
+     *
+     * @see MyMethod Class defines my node.
+     * @param cg A wala call graph.
+     * @return A list of my nodes.
+     *
+     */
+    public static List<MyMethod> parseWalaCG2MyNodes(CallGraph cg) {
+        // Step1: Collect all Application methods.
+        List<CGNode> appNodes = new ArrayList<>();
+        for (CGNode node : cg) {
+            /*
+               We can get declaring class and method signature directly from a
+               ShrikeBTMethod object.
+            */
+            if(node.getMethod() instanceof ShrikeBTMethod) {
+                ShrikeBTMethod method = (ShrikeBTMethod) node.getMethod();
+                if(isLoadedAsApplication(method))
+                    appNodes.add(node);
+            } else {
+                System.out.println(
+                    String.format("[LOG] '%s' is not a ShrikeBTMethod: %s",
+                        node.getMethod(),
+                        node.getMethod().getClass()
+                ));
+            }
+        }
+        /*
+           Step2: Build my nodes using appNodes. Note that the dependents of each
+           myNode are not generated yet.
+        */
+        List<MyMethod> myNodes = new ArrayList<>();
+        for (CGNode appNode : appNodes) {
+            if(appNode.getMethod() instanceof ShrikeBTMethod) {
+                ShrikeBTMethod method = (ShrikeBTMethod) appNode.getMethod();
+                myNodes.add(new MyMethod(method));
+            }
+        }
+        myNodes = myNodes.stream().distinct().collect(Collectors.toList()); // Deduplicate (maybe not necessary.)
+        // Step3: For each application method, build its dependents list.
+        for(int i = 0 ; i < myNodes.size(); i++) {
+            MyMethod myNode = myNodes.get(i);
+            CGNode appNode = appNodes.get(i);
+            /*
+               In wala CallGraph, successor (predecessor) relation possibly represents
+               dependent (being depended) relation.
+            */
+            Iterator<CGNode> predIter = cg.getPredNodes(appNode);
+            List<MyMethod> dependents = new ArrayList<>();
+            while (predIter.hasNext()) {
+                CGNode node = predIter.next();
+                if(node.getMethod() instanceof ShrikeBTMethod) {
+                    ShrikeBTMethod method = (ShrikeBTMethod) node.getMethod();
+                    if(isLoadedAsApplication(method)) {
+                        int index = myNodes.indexOf(new MyMethod(method));
+                        if(index != -1)
+                            dependents.add(myNodes.get(index));
+                    } else
+                        // Abnormal output.
+                        System.out.println(String.format("[WARNING] %s is not an application", node));
+                } else {
+                    // Abnormal output.
+                    System.out.println(
+                        String.format("[WARNING] '%s' is not a ShrikeBTMethod: %s",
+                            node.getMethod(),
+                            node.getMethod().getClass()
+                    ));
+                }
+            }
+            myNode.setDependents(dependents);
+        }
+        return myNodes;
+    }
 
     /**
      * An off-the-shelf call graph construction method which has integrate
