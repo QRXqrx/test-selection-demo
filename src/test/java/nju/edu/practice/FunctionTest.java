@@ -105,13 +105,13 @@ public class FunctionTest {
         DependencyGraph<MethodLevelRelation> graph01 = new DependencyGraph<>("CMD_Method");
         for (MyMethod myNode : myNodes)
             graph01.addRelations(myNode.genMethodLevelRelations());
-        String output1 = "out/CMD/CMD-Method.dot";
+        String output1 = "output/CMD/CMD-Method.dot";
         graph01.output(output1);
 
         DependencyGraph<ClassLevelRelation> graph02 = new DependencyGraph<>("CMD_Class");
         for (MyMethod myNode : myNodes)
             graph02.addRelations(myNode.genClassLevelRelations());
-        String output2 = "out/CMD/CMD-Class.dot";
+        String output2 = "output/CMD/CMD-Class.dot";
         graph02.output(output2);
     }
 
@@ -177,7 +177,7 @@ public class FunctionTest {
     @Test
     public void CMD_genAllInputData() throws IOException, ClassHierarchyException, CancelException {
         PrintStream sysout = System.out;
-        PrintStream ps = new PrintStream(new FileOutputStream(new File("out/CMD/All-Input.txt")));
+        PrintStream ps = new PrintStream(new FileOutputStream(new File("output/CMD/All-Input.txt")));
         System.setOut(ps);
 
         AnalysisScope scope = WalaUtil.getDynamicScope(classDir, exPath, FunctionTest.class.getClassLoader());
@@ -209,7 +209,7 @@ public class FunctionTest {
         CHACallGraph chaCG = makeCHACGFromScope(scope);
 
         PrintStream sysout = System.out;
-        PrintStream ps = new PrintStream(new FileOutputStream(new File("out/CMD/All.txt")));
+        PrintStream ps = new PrintStream(new FileOutputStream(new File("output/CMD/All.txt")));
         System.setOut(ps);
 
         chaCG.forEach((node) -> {
