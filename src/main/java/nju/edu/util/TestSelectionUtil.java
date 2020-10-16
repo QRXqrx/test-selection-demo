@@ -43,8 +43,22 @@ public class TestSelectionUtil {
         graph.output(path);
     }
 
+    public static void outputClassDepGraph(String path, List<MyMethod> myNodes) {
+        DependencyGraph<ClassLevelRelation> graph = new DependencyGraph<>();
+        for (MyMethod myNode : myNodes)
+            graph.addRelations(myNode.genClassLevelRelations());
+        graph.output(path);
+    }
+
     public static void outputMethodDepGraph(String graphName, String path, List<MyMethod> myNodes) {
         DependencyGraph<MethodLevelRelation> graph = new DependencyGraph<>(graphName);
+        for (MyMethod myNode : myNodes)
+            graph.addRelations(myNode.genMethodLevelRelations());
+        graph.output(path);
+    }
+
+    public static void outputMethodDepGraph(String path, List<MyMethod> myNodes) {
+        DependencyGraph<MethodLevelRelation> graph = new DependencyGraph<>();
         for (MyMethod myNode : myNodes)
             graph.addRelations(myNode.genMethodLevelRelations());
         graph.output(path);
