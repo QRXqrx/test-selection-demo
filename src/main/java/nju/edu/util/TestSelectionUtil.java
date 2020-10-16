@@ -1,10 +1,11 @@
 package nju.edu.util;
 
-import com.ibm.wala.ipa.callgraph.AnalysisScope;
-import com.ibm.wala.ipa.callgraph.CallGraph;
-import com.ibm.wala.ipa.callgraph.Entrypoint;
+import com.ibm.wala.classLoader.Language;
+import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.cha.CHACallGraph;
 import com.ibm.wala.ipa.callgraph.impl.AllApplicationEntrypoints;
+import com.ibm.wala.ipa.callgraph.impl.Util;
+import com.ibm.wala.ipa.callgraph.propagation.SSAPropagationCallGraphBuilder;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
 import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
@@ -30,12 +31,61 @@ public class TestSelectionUtil {
 
     /* -------------------- Parse Wala CallGraph -------------------- */
 
-    public static CallGraph makeCHACGFromScope(AnalysisScope scope) throws ClassHierarchyException, CancelException {
+    /**
+     * An off-the-shelf call graph construction method which has integrate
+     * general call graph construction process, i.e. making class hierarchy,
+     * creating entry points, selecting call graph builder, configuring
+     * builder (opt.) and finally return call graph. This method create class
+     * hierarchy with root, which is safer, and choose AllApplicationEntryPoints
+     * as default.
+     *
+     * This method will create a call graph using CHA algorithm.
+     *
+     * @param scope An analysis scope.
+     * @see AnalysisScope
+     * @see CHACallGraph
+     * @see CallGraph
+     * @return A CHACallGraph object.
+     * @throws ClassHierarchyException when creating class hierarchy failed.
+     * @throws CancelException when building call graph failed.
+     */
+    public static CallGraph makeCHACGFromScope(AnalysisScope scope)
+            throws ClassHierarchyException, CancelException {
         ClassHierarchy cha = ClassHierarchyFactory.makeWithRoot(scope);
         Iterable<Entrypoint> eps = new AllApplicationEntrypoints(scope, cha);
         CHACallGraph cg = new CHACallGraph(cha);
         cg.init(eps);
         return cg;
+    }
+
+    /**
+     * An off-the-shelf call graph construction method which has integrate
+     * general call graph construction process, i.e. making class hierarchy,
+     * creating entry points, selecting call graph builder, configuring
+     * builder (opt.) and finally return call graph. This method create class
+     * hierarchy with root, which is safer, and choose AllApplicationEntryPoints
+     * as default. Since I'm not sure about how to configure call graph builder
+     * well, I construct a call graph builder in the easiest way given by wala
+     * developer, i.e. a default analysis option, an empty cache and none monitor.
+     *
+     * This method will create a call graph using 0-CFA algorithm.
+     *
+     * @param scope An analysis scope.
+     * @see AnalysisScope
+     * @see CallGraph
+     * @return A call graph constructed using 0-CFA algorithm.
+     * @throws ClassHierarchyException when creating class hierarchy failed.
+     * @throws CancelException when building call graph failed.
+     */
+    public static CallGraph makeZeroCFACGFromScope(AnalysisScope scope)
+            throws ClassHierarchyException, CancelException {
+        ClassHierarchy cha = ClassHierarchyFactory.makeWithRoot(scope);
+        Iterable<Entrypoint> eps = new AllApplicationEntrypoints(scope, cha);
+        AnalysisOptions options = new AnalysisOptions(scope, eps);
+        SSAPropagationCallGraphBuilder builder = Util.makeZeroCFABuilder(
+                Language.JAVA, options, new AnalysisCacheImpl(), cha, scope
+        );
+        return builder.makeCallGraph(options);
     }
 
 
@@ -87,15 +137,19 @@ public class TestSelectionUtil {
 
     /**
      * A method is changed iff itself or its dependency has been changed.
-     * This method will propagate from one changed method.
+     * This method will propagate from one changed method. Stop when method
+     * has been visited or doesn't have dependents.
      *
      * @param method Propagate recursively.
      */
     private static void propagateChange(MyMethod method) {
-        if(!method.isChanged())
-            throw new RuntimeException(String.format("This method '%s' is has not changed!", method.toString()));
+        // Avoid repeated visiting that may cause endless loop.
+        if(method.isVisited())
+            return;
         // Propagate change to its dependents.
         List<MyMethod> dependents = method.getDependents();
+        if(dependents.isEmpty())
+            return;
         for (MyMethod dependent : dependents)
             propagateChange(dependent);
     }
