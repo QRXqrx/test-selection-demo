@@ -12,6 +12,9 @@ import com.ibm.wala.ipa.cha.ClassHierarchyException;
 import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.util.CancelException;
 import nju.edu.entity.MyMethod;
+import nju.edu.graph.DependencyGraph;
+import nju.edu.relation.ClassLevelRelation;
+import nju.edu.relation.MethodLevelRelation;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -31,11 +34,24 @@ public class TestSelectionUtil {
 
     private TestSelectionUtil() {}
 
-    /* -------------------- Construct and Parse Wala CallGraph -------------------- */
+    /* -------------------- Output Dependency Graph -------------------- */
 
-    private static boolean isLoadedAsApplication(ShrikeBTMethod method) {
-        return "Application".equals(method.getDeclaringClass().getClassLoader().toString());
+    public static void outputClassDepGraph(String graphName, String path, List<MyMethod> myNodes) {
+        DependencyGraph<ClassLevelRelation> graph = new DependencyGraph<>(graphName);
+        for (MyMethod myNode : myNodes)
+            graph.addRelations(myNode.genClassLevelRelations());
+        graph.output(path);
     }
+
+    public static void outputMethodDepGraph(String graphName, String path, List<MyMethod> myNodes) {
+        DependencyGraph<MethodLevelRelation> graph = new DependencyGraph<>(graphName);
+        for (MyMethod myNode : myNodes)
+            graph.addRelations(myNode.genMethodLevelRelations());
+        graph.output(path);
+    }
+
+
+    /* -------------------- Construct and Parse Wala CallGraph -------------------- */
 
     /**
      * This method can transform wala call graph into my method nodes.
@@ -114,6 +130,9 @@ public class TestSelectionUtil {
         return myNodes;
     }
 
+    private static boolean isLoadedAsApplication(ShrikeBTMethod method) {
+        return "Application".equals(method.getDeclaringClass().getClassLoader().toString());
+    }
     /**
      * An off-the-shelf call graph construction method which has integrate
      * general call graph construction process, i.e. making class hierarchy,
