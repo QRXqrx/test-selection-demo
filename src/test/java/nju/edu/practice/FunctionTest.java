@@ -33,7 +33,7 @@ public class FunctionTest {
 
     String exPath = "Java60RegressionExclusions.txt";
     String scopePath = "scope.txt";
-    String classDir = "C:/Users/QRX/Desktop/MyWorkplace/material/AutomatedTesting/ClassicAutomatedTesting/CMD/target/";
+    String classDir = "material/CMD/target/";
 
     String sep = "--------------------------------------------------------------------------------------------------";
 
