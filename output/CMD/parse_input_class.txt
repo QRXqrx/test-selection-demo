@@ -5,6 +5,7 @@ Lnet/mooctest/CMD net.mooctest.CMD.addIntegerOption(CLjava/lang/String;)Lnet/moo
 Lnet/mooctest/CMD net.mooctest.CMD.addDoubleOption(CLjava/lang/String;)Lnet/mooctest/CMD$Option;
 Lnet/mooctest/CMD net.mooctest.CMD.getOptionValues(Lnet/mooctest/CMD$Option;)Ljava/util/Collection;
 Lnet/mooctest/CMD net.mooctest.CMD.addIntegerOption(Ljava/lang/String;)Lnet/mooctest/CMD$Option;
+Lnet/mooctest/CMD net.mooctest.CMD.<init>()V
 Lnet/mooctest/CMD net.mooctest.CMD.addBooleanOption(Ljava/lang/String;)Lnet/mooctest/CMD$Option;
 Lnet/mooctest/CMD net.mooctest.CMD.addStringOption(Ljava/lang/String;)Lnet/mooctest/CMD$Option;
 Lnet/mooctest/CMD net.mooctest.CMD.getOptionValue(Lnet/mooctest/CMD$Option;Ljava/lang/Object;)Ljava/lang/Object;
@@ -16,3 +17,4 @@ Lnet/mooctest/CMD net.mooctest.CMD.addLongOption(CLjava/lang/String;)Lnet/moocte
 Lnet/mooctest/CMD net.mooctest.CMD.getRemainingArgs()[Ljava/lang/String;
 Lnet/mooctest/CMD net.mooctest.CMD.addOption(Lnet/mooctest/CMD$Option;)Lnet/mooctest/CMD$Option;
 Lnet/mooctest/CMD net.mooctest.CMD.parse([Ljava/lang/String;)V
+

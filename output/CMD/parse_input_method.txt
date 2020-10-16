@@ -16,3 +16,4 @@ Lnet/mooctest/CMD net.mooctest.CMD.addLongOption(CLjava/lang/String;)Lnet/moocte
 Lnet/mooctest/CMD net.mooctest.CMD.getRemainingArgs()[Ljava/lang/String;
 Lnet/mooctest/CMD net.mooctest.CMD.addOption(Lnet/mooctest/CMD$Option;)Lnet/mooctest/CMD$Option;
 Lnet/mooctest/CMD net.mooctest.CMD.parse([Ljava/lang/String;)V
+
