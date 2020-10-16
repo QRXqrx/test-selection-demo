@@ -23,13 +23,13 @@ public class SelectionTest {
 
     final ClassLoader classLoader = SelectionTest.class.getClassLoader();
 
-    String cmdTarget = "material/CMD/target";
+    String cmdTarget = "material/0-CMD/target";
     String exPath = "Java60RegressionExclusions.txt";
-    String cmdAllInput = "output/CMD/All-input.txt";
+    String cmdAllInput = "output/0-CMD/All-input.txt";
 
     @Test
     public void CMD_testSelection1() throws IOException, ClassHierarchyException, CancelException {
-        String changeInfo = "material/CMD/data/change_info.txt";
+        String changeInfo = "material/0-CMD/data/change_info.txt";
         AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
         // Two types of call graphs.
         CallGraph cfaCG = TestSelectionUtil.makeZeroCFACGFromScope(scope);
@@ -40,16 +40,16 @@ public class SelectionTest {
 
         Assert.assertEquals(classLChanges.size(), 18);
         // Method level Selection.
-        String outputMethod = "output/CMD/selection-method-cfa.txt";
+        String outputMethod = "output/0-CMD/selection-method-cfa.txt";
         TestSelectionUtil.selectAndOutput(chaNodes, methodLChanges, outputMethod);
         // Class Level Selection.
-        String outputClass = "output/CMD/selection-class-cfa.txt";
+        String outputClass = "output/0-CMD/selection-class-cfa.txt";
         TestSelectionUtil.selectAndOutput(chaNodes, classLChanges, outputClass);
     }
 
     @Test
     public void CMD_testSelection() throws IOException, ClassHierarchyException, CancelException {
-        String changeInfo = "material/CMD/data/change_info.txt";
+        String changeInfo = "material/0-CMD/data/change_info.txt";
         AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
         // Two types of call graphs.
         CallGraph chaCG = TestSelectionUtil.makeCHACGFromScope(scope);
@@ -60,16 +60,16 @@ public class SelectionTest {
 
         Assert.assertEquals(classLChanges.size(), 19);
         // Method level Selection.
-        String outputMethod = "output/CMD/selection-method.txt";
+        String outputMethod = "output/0-CMD/selection-method.txt";
         TestSelectionUtil.selectAndOutput(chaNodes, methodLChanges, outputMethod);
         // Class Level Selection.
-        String outputClass = "output/CMD/selection-class.txt";
+        String outputClass = "output/0-CMD/selection-class.txt";
         TestSelectionUtil.selectAndOutput(chaNodes, classLChanges, outputClass);
     }
 
     @Test
     public void CMD_testParseInput2() throws IOException, ClassHierarchyException, CancelException {
-        String changeInfo = "material/CMD/data/change_info.txt";
+        String changeInfo = "material/0-CMD/data/change_info.txt";
         AnalysisScope scope = WalaUtil.getDynamicScope(cmdTarget, exPath, classLoader);
         // Two types of call graphs.
         CallGraph chaCG = TestSelectionUtil.makeCHACGFromScope(scope);
@@ -80,8 +80,8 @@ public class SelectionTest {
 
         Assert.assertNotEquals(methodLChanges.size(), classLChanges.size());
 
-        String output1 = "output/CMD/parse_input_method_partial.txt";
-        String output2 = "output/CMD/parse_input_class_partial.txt";
+        String output1 = "output/0-CMD/parse_input_method_partial.txt";
+        String output2 = "output/0-CMD/parse_input_class_partial.txt";
         IOUtil.writeContentsIntoFile(output1, methodLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
         IOUtil.writeContentsIntoFile(output2, classLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
     }
@@ -97,8 +97,8 @@ public class SelectionTest {
         List<MyMethod> classLChanges = TestSelectionUtil.parseClassChanges(cmdAllInput, chaNodes);
 
         Assert.assertNotEquals(methodLChanges.size(), classLChanges.size());
-        String output1 = "output/CMD/parse_input_method.txt";
-        String output2 = "output/CMD/parse_input_class.txt";
+        String output1 = "output/0-CMD/parse_input_method.txt";
+        String output2 = "output/0-CMD/parse_input_class.txt";
         IOUtil.writeContentsIntoFile(output1, methodLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
         IOUtil.writeContentsIntoFile(output2, classLChanges.stream().map(MyMethod::toString).collect(Collectors.toList()));
 
@@ -111,8 +111,8 @@ public class SelectionTest {
 
         List<MyMethod> cfaNodes = TestSelectionUtil.parseWalaCG2MyNodes(cfaCG);
 
-        String output1 = "output/CMD/class-CMD-cfa.dot";
-        String output2 = "output/CMD/method-CMD-cfa.dot";
+        String output1 = "output/0-CMD/class-CMD-cfa.dot";
+        String output2 = "output/0-CMD/method-CMD-cfa.dot";
         TestSelectionUtil.outputClassDepGraph("cmd_class", output1, cfaNodes);
         TestSelectionUtil.outputMethodDepGraph("cmd_method", output2, cfaNodes);
     }
@@ -126,13 +126,13 @@ public class SelectionTest {
 
         List<MyMethod> chaNodes = TestSelectionUtil.parseWalaCG2MyNodes(chaCG);
         List<MyMethod> cfaNodes = TestSelectionUtil.parseWalaCG2MyNodes(cfaCG);
-        String outputCHA = "output/CMD/chaNodes.txt";
-        String outputCFA = "output/CMD/cfaNodes.txt";
+        String outputCHA = "output/0-CMD/chaNodes.txt";
+        String outputCFA = "output/0-CMD/cfaNodes.txt";
         IOUtil.writeContentsIntoFile(outputCHA, chaNodes.stream().map(MyMethod::toString).collect(Collectors.toList()));
         IOUtil.writeContentsIntoFile(outputCFA, cfaNodes.stream().map(MyMethod::toString).collect(Collectors.toList()));
 
-        String output1 = "output/CMD/cha-method.dot";
-        String output2 = "output/CMD/cfa-method.dot";
+        String output1 = "output/0-CMD/cha-method.dot";
+        String output2 = "output/0-CMD/cfa-method.dot";
         TestSelectionUtil.outputMethodDepGraph("cha_method", output1, chaNodes);
         TestSelectionUtil.outputMethodDepGraph("cfa_method", output2, cfaNodes);
     }
