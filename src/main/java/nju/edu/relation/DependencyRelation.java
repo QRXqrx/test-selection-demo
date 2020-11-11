@@ -1,7 +1,5 @@
 package nju.edu.relation;
 
-import nju.edu.entity.MyMethod;
-
 import java.util.Objects;
 
 /**
