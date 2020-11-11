@@ -2,9 +2,7 @@ package nju.edu.practice;
 
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.classLoader.ShrikeBTMethod;
-import com.ibm.wala.ipa.callgraph.AnalysisScope;
-import com.ibm.wala.ipa.callgraph.CGNode;
-import com.ibm.wala.ipa.callgraph.Entrypoint;
+import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.cha.CHACallGraph;
 import com.ibm.wala.ipa.callgraph.impl.AllApplicationEntrypoints;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
@@ -43,6 +41,16 @@ public class FunctionTest {
         CHACallGraph cg = new CHACallGraph(cha);
         cg.init(eps);
         return cg;
+    }
+
+    @Test
+    public void testCallGraphStats() throws ClassHierarchyException, CancelException, IOException {
+        String aluClassDir = "material/1-ALU/target";
+        AnalysisScope scope = WalaUtil.getDynamicScope(aluClassDir, exPath, FunctionTest.class.getClassLoader());
+        CHACallGraph chaCG = makeCHACGFromScope(scope);
+        // Test CallGraphStats
+        String stats = CallGraphStats.getStats(chaCG);
+        System.out.println(stats);
     }
 
     @Test
@@ -238,6 +246,7 @@ public class FunctionTest {
     @Test
     public void testCMD01() throws IOException, ClassHierarchyException, CancelException {
         AnalysisScope scope = WalaUtil.getDynamicScope(classDir, exPath, FunctionTest.class.getClassLoader());
+//        System.out.println(scope);
         CHACallGraph chaCG = makeCHACGFromScope(scope);
         chaCG.forEach((node) -> {
             if(node.getMethod() instanceof ShrikeBTMethod) {
